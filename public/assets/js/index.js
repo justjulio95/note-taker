@@ -35,11 +35,24 @@ const getNotes = () =>
 
 const saveNote = (note) =>
   fetch('/api/notes', {
+    // POST method informs the server which action to take with the route. 
     method: 'POST',
+    // informs the request that it's going to receive JSON data. 
     headers: {
+      Accept:'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
+  })
+  .then(response => {
+    if(response.ok) {
+      return response.json()
+    }
+    alert('Error: ' + response.statusText)
+  })
+  .then(postResponse => {
+    console.log(postResponse);
+    alert('Note Added!')
   });
 
 const deleteNote = (id) =>

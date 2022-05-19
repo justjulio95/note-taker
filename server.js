@@ -11,6 +11,11 @@ app.use(express.urlencoded({extended: true}));
 //parse incoming JSON data
 app.use(express.json())
 
+//this will grant access to things listed in the public folder - CSS, HTML, JS, etc.
+//NOTE: This won't have much, if any effect on this project. It's all BOOTSTRAP.
+//NOTE+: index.js is initiated with this line. 
+app.use(express.static('public'))
+
 //This will allow us to search for specific notes in our app (may not need later??? might be cool to add???)
 function filterByQuery(query, notesArray) {
     let filteredResults = notesArray;
@@ -94,6 +99,23 @@ app.post('/api/notes', (req, res) => {
         console.log(req.body)
         res.json(note)
     }
+})
+
+//set up the route linking the SERVER to the HTML which will be displayed
+app.get('/', (req, res) => {
+    //sends the listed file to the server at its root '/'
+    //NOTE: this would TYPICALLY be BLAND HTML. This project is using BOOTSTRAP, so all the style stuff is being handled.
+    res.sendFile(path.join(__dirname, './public/index.html'))
+})
+
+//set up the route linking the SERVER to the NOTES.html file to be displayed!
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/notes.html"))
+})
+
+// Ensures that random routes that don't exist will just lead to the index page. 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html')
 })
 
 app.listen(PORT, () => {
