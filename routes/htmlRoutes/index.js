@@ -11,8 +11,6 @@ router.get('/', (req, res) => {
 //set up the route linking the SERVER to the NOTES.html file to be displayed!
 router.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, "../../public/notes.html"))
-
-    console.log(__dirname + " <-- that's where we start. this is where the file is at: ../../public/notes.html")
 })
 
 // Ensures that random routes that don't exist will just lead to the index page. 
